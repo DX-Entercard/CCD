@@ -1,0 +1,10 @@
+<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 30.4947 30.6211" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Shadow">
+<mask id="mask0_0_260" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="31" height="31">
+<ellipse id="Ellipse 222" cx="15.2473" cy="15.3106" rx="14.2473" ry="14.3106" fill="var(--fill-0, white)" stroke="var(--stroke-0, #ED7102)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</mask>
+<g mask="url(#mask0_0_260)">
+<path id="Ellipse 223" d="M9.24707 -7C21.5673 -7 31.4951 3.0222 31.4951 15.3105C31.4951 27.5989 21.5673 37.6211 9.24707 37.6211C-3.07302 37.6209 -13 27.5988 -13 15.3105C-13 3.02229 -3.07302 -6.99985 9.24707 -7Z" stroke="var(--stroke-0, #ED7102)" stroke-opacity="0.08" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</g>
+</svg>
