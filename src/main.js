@@ -193,6 +193,49 @@ const assets = {
     offsetX: 0,
     offsetY: 0,
   },
+  loanTopup: {
+    src: assetUrl("./assets/figma/loan-topup.svg"),
+    width: 20,
+    height: 14,
+    offsetX: 0,
+    offsetY: 0,
+  },
+  loanNewWindow: {
+    src: assetUrl("./assets/figma/loan-new-window.svg"),
+    width: 16,
+    height: 16,
+    offsetX: 0,
+    offsetY: 0,
+    frame: 24,
+  },
+  loanRepayment: {
+    src: assetUrl("./assets/figma/loan-repayment.svg"),
+    width: 14.5,
+    height: 13,
+    offsetX: -0.25,
+    offsetY: -0.5,
+  },
+  loanPaymentFree: {
+    src: assetUrl("./assets/figma/loan-payment-free.svg"),
+    width: 19,
+    height: 20,
+    offsetX: 0,
+    offsetY: -0.5,
+  },
+  loanBankgiro: {
+    src: assetUrl("./assets/figma/loan-bankgiro.svg"),
+    width: 18,
+    height: 17.83,
+    offsetX: 0,
+    offsetY: 0.09,
+  },
+  loanAgreementPdf: {
+    src: assetUrl("./assets/figma/loan-agreement-pdf.svg"),
+    width: 15,
+    height: 19,
+    offsetX: -0.5,
+    offsetY: -0.5,
+  },
 };
 
 const commonAgreementBody =
@@ -219,7 +262,7 @@ const successBodyParagraphs = [
   "For further assistance, please contact customer service.",
 ];
 
-const startSections = [
+const cardStartSections = [
   {
     title: "Agreement",
     rows: [
@@ -262,6 +305,66 @@ const startSections = [
     ],
   },
 ];
+
+const loanStartSections = [
+  {
+    rows: [
+      {
+        kind: "large",
+        icon: assets.agreement,
+        label: "Withdraw from agreement",
+        sublabel: "Available until April 3, 2026",
+        trailingIcon: assets.chevron,
+        action: "open-agreement",
+      },
+      {
+        icon: assets.loanTopup,
+        label: "Top up loan",
+        trailingIcon: assets.loanNewWindow,
+      },
+      {
+        icon: assets.loanRepayment,
+        label: "Repayment plan",
+      },
+      {
+        icon: assets.loanPaymentFree,
+        label: "Payment-free month",
+      },
+      {
+        icon: assets.loanBankgiro,
+        label: "View Bankgiro / OCR",
+      },
+      {
+        icon: assets.insurance,
+        label: "Insurance plan",
+      },
+      {
+        icon: assets.loanAgreementPdf,
+        label: "Show agreement",
+      },
+    ],
+  },
+];
+
+const entryScreens = {
+  "entry-card": {
+    label: "Manage my card",
+    title: "Manage my card",
+    defaultState: "single-cards",
+    summary: {
+      title: "re:member more",
+      meta: "**** 1234 • Maria Svensson",
+      art: assets.cardArt,
+    },
+    sections: cardStartSections,
+  },
+  "entry-loan": {
+    label: "Manage my loan",
+    title: "Manage my loan",
+    defaultState: "single-loans",
+    sections: loanStartSections,
+  },
+};
 
 const agreementScreens = {
   "single-cards": {
@@ -382,6 +485,10 @@ const agreementScreens = {
 
 const prototypeNavGroups = [
   {
+    title: "Entry points",
+    entryKeys: ["entry-card", "entry-loan"],
+  },
+  {
     title: "Single Products",
     stateKeys: ["single-cards", "single-loans", "single-insurance"],
   },
@@ -409,6 +516,7 @@ const successSheets = {
 };
 
 const prototypeState = {
+  currentEntryPoint: "entry-card",
   currentState: "single-cards",
   currentScreen: "home",
   modalTransition: "idle",
@@ -457,6 +565,10 @@ function getCurrentScreenConfig() {
   return agreementScreens[prototypeState.currentState];
 }
 
+function getCurrentEntryConfig() {
+  return entryScreens[prototypeState.currentEntryPoint];
+}
+
 function getSelectionsForState(stateKey) {
   return prototypeState.selections[stateKey] || {};
 }
@@ -496,13 +608,17 @@ function hasSelectedProducts(stateKey) {
   return getSelectedProducts(stateKey).length > 0;
 }
 
-function renderCardSummary() {
+function renderHomeSummary(summary) {
+  if (!summary) {
+    return "";
+  }
+
   return `
     <section class="card-summary" aria-label="Selected card">
-      <img class="card-summary__art" src="${assets.cardArt}" alt="" />
+      <img class="card-summary__art" src="${summary.art}" alt="" />
       <div class="card-summary__content">
-        <p class="card-summary__title">re:member more</p>
-        <p class="card-summary__meta">**** 1234 • Maria Svensson</p>
+        <p class="card-summary__title">${summary.title}</p>
+        <p class="card-summary__meta">${summary.meta}</p>
       </div>
     </section>
   `;
@@ -540,16 +656,20 @@ function renderRow(row) {
 
 function renderSection(section) {
   const rows = section.rows.map(renderRow).join("");
-  const titleId = sectionId(section.title);
+  const headingMarkup = section.title
+    ? `<h2 class="service-section__title" id="${sectionId(section.title)}">${section.title}</h2>`
+    : "";
+  const labelledBy = section.title ? ` aria-labelledby="${sectionId(section.title)}"` : "";
   return `
-    <section class="service-section" aria-labelledby="${titleId}">
-      <h2 class="service-section__title" id="${titleId}">${section.title}</h2>
+    <section class="service-section"${labelledBy}>
+      ${headingMarkup}
       <div class="service-section__rows">${rows}</div>
     </section>
   `;
 }
 
 function renderStartScreen() {
+  const entryConfig = getCurrentEntryConfig();
   return `
     <div class="sheet-surface sheet-surface--home">
       <header class="sheet-header">
@@ -559,12 +679,12 @@ function renderStartScreen() {
               <span class="close-button__icon"></span>
             </button>
           </div>
-          <h1 class="sheet-header__title">Manage my card</h1>
+          <h1 class="sheet-header__title">${entryConfig.title}</h1>
         </div>
       </header>
       <div class="sheet-body">
-        ${renderCardSummary()}
-        ${startSections.map(renderSection).join("")}
+        ${renderHomeSummary(entryConfig.summary)}
+        ${entryConfig.sections.map(renderSection).join("")}
       </div>
     </div>
   `;
@@ -1028,6 +1148,20 @@ function renderPrototypeControls() {
           `;
         })
         .join("");
+      const entryButtons = (group.entryKeys || [])
+        .map((entryKey) => {
+          const config = entryScreens[entryKey];
+          const active = prototypeState.currentEntryPoint === entryKey
+            ? " prototype-nav__button--active"
+            : "";
+
+          return `
+            <button class="prototype-nav__button${active}" type="button" data-entry-point="${entryKey}">
+              ${config.label}
+            </button>
+          `;
+        })
+        .join("");
       const successButtons = (group.successKeys || [])
         .map((successKey) => {
           const config = successSheets[successKey];
@@ -1042,7 +1176,7 @@ function renderPrototypeControls() {
           `;
         })
         .join("");
-      const buttons = `${stateButtons}${successButtons}`;
+      const buttons = `${entryButtons}${stateButtons}${successButtons}`;
 
       return `
         <section class="prototype-nav__group">
@@ -1053,10 +1187,10 @@ function renderPrototypeControls() {
     })
     .join("");
 
-  return `
+      return `
     <aside class="prototype-nav" aria-label="Prototype states">
       <div class="prototype-nav__panel">
-        <div class="prototype-nav__eyebrow">Agreement states</div>
+        <div class="prototype-nav__eyebrow">Prototype states</div>
         ${groupsMarkup}
       </div>
     </aside>
@@ -1178,6 +1312,20 @@ function syncLiveTime() {
 }
 
 function bindPrototypeEvents() {
+  document.querySelectorAll("[data-entry-point]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const entryKey = button.dataset.entryPoint;
+      const entryConfig = entryScreens[entryKey];
+      prototypeState.currentEntryPoint = entryKey;
+      prototypeState.currentState = entryConfig.defaultState;
+      prototypeState.currentScreen = "home";
+      prototypeState.modalTransition = "idle";
+      prototypeState.resetDetailScroll = false;
+      prototypeState.reviewSnapshot = null;
+      render();
+    });
+  });
+
   document.querySelectorAll("[data-state]").forEach((button) => {
     button.addEventListener("click", () => {
       const wasHome = prototypeState.currentScreen === "home";
@@ -1203,6 +1351,7 @@ function bindPrototypeEvents() {
 
   document.querySelectorAll("[data-action='open-agreement']").forEach((button) => {
     button.addEventListener("click", () => {
+      prototypeState.currentState = getCurrentEntryConfig().defaultState;
       prototypeState.modalTransition = "opening";
       prototypeState.currentScreen = "detail";
       prototypeState.resetDetailScroll = true;
