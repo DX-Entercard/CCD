@@ -193,9 +193,9 @@ const commonInformationRows = [
 ];
 
 const successBodyParagraphs = [
-  "Your request has been successfully submitted. We will review it and contact you with an update.",
-  "Please note that if the balance is not repaid within the specified period, the agreement will remain active despite this request.",
-  "For further assistance, please contact customer service.",
+  "We have received your request.",
+  "You will receive confirmation message on your Minasidor shortly.",
+  "If you have further questions, please contact our customer service team.",
 ];
 
 const startSections = [
@@ -247,7 +247,7 @@ const agreementScreens = {
     group: "Single Products",
     label: "Cards",
     mode: "single",
-    title: "Right of withdrawal",
+    title: "Withdraw from agreement",
     body: commonAgreementBody,
     productTitle: "re:member more",
     productMeta: "**** 1234",
@@ -259,7 +259,7 @@ const agreementScreens = {
     group: "Single Products",
     label: "Loans",
     mode: "single",
-    title: "Right of withdrawal",
+    title: "Withdraw from agreement",
     body: commonAgreementBody,
     productTitle: "re:member loan",
     productMeta: "300, 000 kr",
@@ -271,7 +271,7 @@ const agreementScreens = {
     group: "Single Products",
     label: "Insurance",
     mode: "single",
-    title: "Right of withdrawal",
+    title: "Withdraw from agreement",
     body: commonAgreementBody,
     productTitle: "Betalningsskydd Plus",
     productMeta: "re:member more",
@@ -283,7 +283,7 @@ const agreementScreens = {
     group: "Multiple Products",
     label: "Cards",
     mode: "multiple",
-    title: "Right of withdrawal",
+    title: "Withdraw from agreement",
     body: commonAgreementBody,
     subtitle: "Select your product before submitting.",
     infoIcon: assets.detailInfoCards,
@@ -307,7 +307,7 @@ const agreementScreens = {
     group: "Multiple Products",
     label: "Loans",
     mode: "multiple",
-    title: "Right of withdrawal",
+    title: "Withdraw from agreement",
     body: commonAgreementBody,
     subtitle: "Select your product before submitting.",
     infoIcon: assets.detailInfoLoans,
@@ -331,7 +331,7 @@ const agreementScreens = {
     group: "Multiple Products",
     label: "Insurance",
     mode: "multiple",
-    title: "Right of withdrawal",
+    title: "Withdraw from agreement",
     body: commonAgreementBody,
     subtitle: "Select your product before submitting.",
     infoIcon: assets.detailInfoInsurance,
