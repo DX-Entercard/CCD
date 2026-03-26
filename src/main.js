@@ -236,6 +236,67 @@ const assets = {
     offsetX: -0.5,
     offsetY: -0.5,
   },
+  entercardLogo: assetUrl("./assets/figma/entercard-logo.svg"),
+  swedbankCardArt: assetUrl("./assets/figma/swedbank-card-art.svg"),
+  swedbankLoginBg: assetUrl("./assets/figma/swedbank-login-bg.jpg"),
+  swedbankLoginAccount: {
+    src: "https://www.figma.com/api/mcp/asset/a9f2fb16-b000-462d-9bc2-05e9d5cdc9e5",
+    width: 38,
+    height: 38,
+    offsetX: 0,
+    offsetY: 0,
+    frame: 48,
+  },
+  swedbankBankId: {
+    src: "https://www.figma.com/api/mcp/asset/348f04de-7473-4e68-81af-476b798e34e8",
+    width: 18,
+    height: 18,
+    offsetX: 0,
+    offsetY: 0,
+    frame: 24,
+  },
+  swedbankBankIdQr: {
+    src: "https://www.figma.com/api/mcp/asset/fa776c80-c4b3-46f4-a888-66474995019f",
+    width: 15.552,
+    height: 15.552,
+    offsetX: 3.75,
+    offsetY: -4.5,
+    frame: 24,
+  },
+  swedbankToggleBg:
+    "https://www.figma.com/api/mcp/asset/6c757f0d-4243-4337-85ba-083ea12b7b23",
+  swedbankChevron: {
+    src: "https://www.figma.com/api/mcp/asset/7c999850-f68f-4251-bd83-b1f6773541df",
+    width: 6,
+    height: 11,
+    offsetX: 0.5,
+    offsetY: 0,
+    frame: 20,
+  },
+  swedbankHelp: {
+    src: "https://www.figma.com/api/mcp/asset/a8975135-5c4c-4d94-b00a-3ff7f0e95800",
+    width: 19,
+    height: 19,
+    offsetX: 0,
+    offsetY: 0,
+    frame: 24,
+  },
+  swedbankAccessibility: {
+    src: "https://www.figma.com/api/mcp/asset/fb34f905-271a-4eed-8e0d-dcabf8adb40b",
+    width: 19,
+    height: 19,
+    offsetX: 0,
+    offsetY: 0,
+    frame: 24,
+  },
+  swedbankNewWindow: {
+    src: "https://www.figma.com/api/mcp/asset/8b4ca046-736a-4a8c-b9b2-5593ec25d436",
+    width: 16,
+    height: 16,
+    offsetX: 0,
+    offsetY: 0,
+    frame: 24,
+  },
 };
 
 const commonAgreementBody =
@@ -261,6 +322,17 @@ const successBodyParagraphs = [
   "Please note that if the balance is not repaid within the specified period, the agreement will remain active despite this request.",
   "For further assistance, please contact customer service.",
 ];
+
+const portals = {
+  remember: {
+    label: "re:member",
+    defaultScreen: "home",
+  },
+  swedbank: {
+    label: "Swedbank",
+    defaultScreen: "swedbank-login",
+  },
+};
 
 const cardStartSections = [
   {
@@ -483,7 +555,7 @@ const agreementScreens = {
   },
 };
 
-const prototypeNavGroups = [
+const rememberNavGroups = [
   {
     title: "Entry points",
     entryKeys: ["entry-card", "entry-loan"],
@@ -500,12 +572,24 @@ const prototypeNavGroups = [
     title: "Success Sheets",
     successKeys: ["app", "web"],
   },
+  {
+    title: "Submitted states",
+    submittedKeys: ["request-received"],
+  },
 ];
+
+const swedbankPreviewScreens = {
+  "swedbank-login": { label: "Login" },
+  "swedbank-detail": { label: "Withdraw from agreement" },
+  "swedbank-review": { label: "Review" },
+  "swedbank-success": { label: "Success popup" },
+  "swedbank-submitted": { label: "Request received" },
+};
 
 const successSheets = {
   app: {
     label: "From app",
-    primaryActionLabel: "Go to Mina Sidor",
+    primaryActionLabel: "Go to Minasidor",
     primaryActionExternal: true,
   },
   web: {
@@ -515,7 +599,14 @@ const successSheets = {
   },
 };
 
+const submittedScreens = {
+  "request-received": {
+    label: "Request received",
+  },
+};
+
 const prototypeState = {
+  currentPortal: "remember",
   currentEntryPoint: "entry-card",
   currentState: "single-cards",
   currentScreen: "home",
@@ -567,6 +658,29 @@ function getCurrentScreenConfig() {
 
 function getCurrentEntryConfig() {
   return entryScreens[prototypeState.currentEntryPoint];
+}
+
+function getCurrentPortalConfig() {
+  return portals[prototypeState.currentPortal];
+}
+
+function getPrototypeNavGroups() {
+  if (prototypeState.currentPortal === "swedbank") {
+    return [
+      {
+        title: "Swedbank flow",
+        previewKeys: [
+          "swedbank-login",
+          "swedbank-detail",
+          "swedbank-review",
+          "swedbank-success",
+          "swedbank-submitted",
+        ],
+      },
+    ];
+  }
+
+  return rememberNavGroups;
 }
 
 function getSelectionsForState(stateKey) {
@@ -809,10 +923,12 @@ function renderDetailShell(config, bodyMarkup, footerMarkup) {
           </div>
           <div class="detail-header__content">
             <h1 class="detail-header__title">${config.title}</h1>
-            <p class="detail-header__body">${config.body}</p>
           </div>
         </header>
         <div class="detail-sheet__scroll">
+          <section class="detail-intro">
+            <p class="detail-intro__body">${config.body}</p>
+          </section>
           ${bodyMarkup}
         </div>
         ${footerMarkup}
@@ -901,6 +1017,24 @@ function formatRequestTimestamp(date) {
 }
 
 function createReviewSnapshot() {
+  if (prototypeState.currentPortal === "swedbank") {
+    prototypeState.reviewSnapshot = {
+      stateKey: "swedbank",
+      products: [
+        {
+          id: "swedbank-card",
+          title: "Swedbank Mastercard",
+          meta: "**** 1234",
+        },
+      ],
+      cardNumber: "**** 1234",
+      requestTime: formatRequestTimestamp(new Date()),
+      name: "Maria Svensson",
+      confirmationLabel: "Via Swedbank\n(Messages)",
+    };
+    return;
+  }
+
   const selectedProducts = getSelectedProducts();
   const hasCard = prototypeState.currentState === "single-cards"
     || (
@@ -914,7 +1048,7 @@ function createReviewSnapshot() {
     cardNumber: hasCard ? "**** 1234" : null,
     requestTime: formatRequestTimestamp(new Date()),
     name: "Maria Svensson",
-    confirmationLabel: "Minasidor\n(My messages)",
+    confirmationLabel: "Via Minasidor\n(Messages)",
   };
 }
 
@@ -996,13 +1130,15 @@ function renderReviewScreen() {
           </div>
           <div class="review-header__content">
             <h1 class="review-header__title">Review your request</h1>
-            <p class="review-header__body">Review your details before submitting your request. We will begin processing your request after submission and you will receive confirmation after submission via My Messages on minasidor.remember.se</p>
           </div>
         </header>
         <div class="detail-sheet__scroll detail-sheet__scroll--review">
+          <section class="review-intro">
+            <p class="review-header__body">Please review your details before submitting. Once submitted, we’ll start processing your request and send a confirmation to your Messages (Minasidor).</p>
+          </section>
           <section class="review-tiles">
             ${renderReviewTile(assets.reviewAccount, "Name", snapshot.name)}
-            ${renderReviewTile(assets.reviewMail, "Confirmation via", snapshot.confirmationLabel)}
+            ${renderReviewTile(assets.reviewMail, "Confirmation", snapshot.confirmationLabel)}
           </section>
           <section class="review-section">
             ${reviewRowsMarkup}
@@ -1013,6 +1149,314 @@ function renderReviewScreen() {
         </footer>
       </section>
     </div>
+  `;
+}
+
+function renderSubmittedScreen() {
+  const snapshot = prototypeState.reviewSnapshot;
+  const reviewRows = [
+    ...snapshot.products.map((product) => ({
+      label: "Product",
+      value: product.title,
+      allowWrap: false,
+      variant: "product",
+    })),
+    ...(snapshot.cardNumber
+      ? [{ label: "Card number", value: snapshot.cardNumber, allowWrap: false, variant: "" }]
+      : []),
+    { label: "Request time", value: snapshot.requestTime, allowWrap: false, variant: "timestamp" },
+  ];
+  const reviewRowsMarkup = reviewRows
+    .map((row, index) =>
+      renderReviewRow(
+        row.label,
+        row.value,
+        index !== reviewRows.length - 1,
+        row.allowWrap,
+        row.variant,
+      ))
+    .join("");
+  const submittedBodyMarkup = successBodyParagraphs
+    .map((paragraph) => `<p class="submitted-header__paragraph">${paragraph}</p>`)
+    .join("");
+
+  return `
+    <div class="modal-layer">
+      <button class="modal-backdrop" type="button" aria-label="Close modal" data-action="back-home"></button>
+      <section class="sheet-surface sheet-surface--detail modal-sheet review-sheet submitted-sheet" aria-label="Request received">
+        <header class="review-header submitted-header">
+          <div class="detail-header__handle" aria-hidden="true"></div>
+          <div class="review-header__nav">
+            <button class="nav-circle-button" type="button" aria-label="Back" data-action="back-home">
+              <span class="nav-circle-button__chevron nav-circle-button__chevron--left"></span>
+            </button>
+            <button class="close-button" type="button" aria-label="Close" data-action="back-home">
+              <span class="close-button__icon"></span>
+            </button>
+          </div>
+          <div class="review-header__content submitted-header__content">
+            <h1 class="review-header__title">Request received</h1>
+          </div>
+        </header>
+        <div class="detail-sheet__scroll detail-sheet__scroll--review">
+          <section class="review-intro review-intro--submitted">
+            <div class="review-header__body submitted-header__body">${submittedBodyMarkup}</div>
+          </section>
+          <section class="review-tiles">
+            ${renderReviewTile(assets.reviewAccount, "Name", snapshot.name)}
+            ${renderReviewTile(assets.reviewMail, "Confirmation", snapshot.confirmationLabel)}
+          </section>
+          <section class="review-section">
+            ${reviewRowsMarkup}
+          </section>
+        </div>
+        <footer class="detail-footer submitted-footer">
+          ${renderSuccessButton("Go to Minasidor", "secondary", "success-primary", true)}
+          ${renderSuccessButton("Contact customer service", "primary", "success-secondary")}
+        </footer>
+      </section>
+    </div>
+  `;
+}
+
+function renderSwedbankBrandHeader() {
+  return `
+    <header class="swedbank-brand-header">
+      <div class="swedbank-brand-header__logo-wrap">
+        <img class="swedbank-brand-header__logo" src="${assets.entercardLogo}" alt="Entercard" />
+      </div>
+      <div class="swedbank-brand-header__divider" aria-hidden="true"></div>
+    </header>
+  `;
+}
+
+function renderSwedbankCardArt() {
+  return `<img class="swedbank-card-art" src="${assets.swedbankCardArt}" alt="" aria-hidden="true" />`;
+}
+
+function renderSwedbankLoginOption({
+  label,
+  icon,
+  action,
+  chevronIcon = assets.swedbankChevron,
+}) {
+  return `
+    <button class="swedbank-login__option" type="button" data-action="${action}">
+      <span class="swedbank-login__option-left">
+        <span class="swedbank-login__bankid-icon-wrap">
+          ${renderIcon(icon, "swedbank-login__bankid-icon")}
+        </span>
+        <span class="swedbank-login__option-label">${label}</span>
+      </span>
+      ${renderIcon(chevronIcon, "swedbank-login__chevron")}
+    </button>
+  `;
+}
+
+function renderSwedbankUtilityRow({ label, icon, action = "", external = false }) {
+  const actionAttr = action ? ` data-action="${action}"` : "";
+  const trailing = external
+    ? renderIcon(assets.swedbankNewWindow, "swedbank-login__utility-trailing")
+    : renderIcon(assets.swedbankChevron, "swedbank-login__utility-trailing");
+
+  return `
+    <button class="swedbank-login__utility"${actionAttr} type="button">
+      <span class="swedbank-login__utility-left">
+        ${renderIcon(icon, "swedbank-login__utility-icon")}
+        <span class="swedbank-login__utility-label">${label}</span>
+      </span>
+      ${trailing}
+    </button>
+  `;
+}
+
+function renderSwedbankPrimaryButton(label, action) {
+  return `
+    <button class="swedbank-button swedbank-button--primary" type="button" data-action="${action}">
+      ${label}
+    </button>
+  `;
+}
+
+function renderSwedbankSecondaryButton(label, action) {
+  return `
+    <button class="swedbank-button swedbank-button--secondary" type="button" data-action="${action}">
+      ${label}
+    </button>
+  `;
+}
+
+function renderSwedbankLoginScreen() {
+  return `
+    <section class="swedbank-login" aria-label="Swedbank login">
+      <div class="swedbank-login__bg">
+        <img class="swedbank-login__bg-image" src="${assets.swedbankLoginBg}" alt="" />
+      </div>
+      <div class="swedbank-login__topbar">
+        <img class="swedbank-login__logo" src="${assets.entercardLogo}" alt="Entercard" />
+        <div class="swedbank-login__topbar-divider" aria-hidden="true"></div>
+      </div>
+      <div class="swedbank-login__card">
+        <div class="swedbank-login__hero">
+          <div class="swedbank-login__account">${renderIcon(assets.swedbankLoginAccount, "swedbank-login__account-icon")}</div>
+          <h1 class="swedbank-login__title">Login</h1>
+          <p class="swedbank-login__body">Log in with BankID to withdraw from your agreement</p>
+        </div>
+        <div class="swedbank-login__options">
+          ${renderSwedbankLoginOption({
+            label: "BankID med QR-kod",
+            icon: assets.swedbankBankId,
+            action: "open-swedbank-detail",
+          })}
+          ${renderSwedbankLoginOption({
+            label: "BankID på denna enhet",
+            icon: assets.swedbankBankId,
+            action: "open-swedbank-detail",
+          })}
+        </div>
+        <div class="swedbank-login__utilities">
+          ${renderSwedbankUtilityRow({
+            label: "Behöver du hjälp?",
+            icon: assets.swedbankHelp,
+          })}
+          ${renderSwedbankUtilityRow({
+            label: "Tillgänglighetsredogörelse",
+            icon: assets.swedbankAccessibility,
+            external: true,
+          })}
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function renderSwedbankDetailScreen() {
+  return `
+    <section class="swedbank-screen" aria-label="Swedbank withdraw from agreement">
+      ${renderSwedbankBrandHeader()}
+      <div class="swedbank-screen__scroll">
+        <section class="swedbank-screen__title-block">
+          <h1 class="swedbank-screen__title">Withdraw from agreement</h1>
+          <p class="swedbank-screen__body">${commonAgreementBody}</p>
+        </section>
+        <section class="swedbank-screen__section">
+          <h2 class="swedbank-screen__section-title">Product details</h2>
+          <p class="swedbank-screen__section-subtitle">Review your product before submitting.</p>
+          <div class="swedbank-product-row">
+            ${renderSwedbankCardArt()}
+            <div class="swedbank-product-row__content">
+              <div class="swedbank-product-row__title">Swedbank Mastercard</div>
+              <div class="swedbank-product-row__meta">**** 1234</div>
+            </div>
+          </div>
+        </section>
+        <section class="swedbank-screen__section">
+          <h2 class="swedbank-screen__section-title">What happens next</h2>
+          <div class="detail-info detail-info--swedbank">
+            ${commonInformationRows.map((row) => renderDetailInfoRow(assets.detailInfoCards, row)).join("")}
+          </div>
+        </section>
+      </div>
+      <footer class="swedbank-screen__footer">
+        ${renderSwedbankPrimaryButton("Next", "open-swedbank-review")}
+      </footer>
+    </section>
+  `;
+}
+
+function renderSwedbankReviewScreen() {
+  const snapshot = prototypeState.reviewSnapshot;
+  const reviewRowsMarkup = [
+    renderReviewRow("Product", "Swedbank Mastercard", true, false, "product"),
+    renderReviewRow("Card number", snapshot.cardNumber, true),
+    renderReviewRow("Request time", snapshot.requestTime, false, false, "timestamp"),
+  ].join("");
+
+  return `
+    <section class="swedbank-screen" aria-label="Swedbank review your request">
+      ${renderSwedbankBrandHeader()}
+      <div class="swedbank-screen__scroll">
+        <section class="swedbank-screen__title-block">
+          <h1 class="swedbank-screen__title">Review your request</h1>
+          <p class="swedbank-screen__body">Please review your details before submitting. Once submitted, we’ll start processing your request and send a confirmation to your Messages (Minasidor).</p>
+        </section>
+        <section class="review-tiles review-tiles--swedbank">
+          ${renderReviewTile(assets.reviewAccount, "Name", snapshot.name)}
+          ${renderReviewTile(assets.reviewMail, "Confirmation", "Via Swedbank\n(Messages)")}
+        </section>
+        <section class="review-section review-section--swedbank">
+          ${reviewRowsMarkup}
+        </section>
+      </div>
+      <footer class="swedbank-screen__footer">
+        <button class="review-footer__button" type="button" data-action="open-swedbank-success">Submit withdrawal request</button>
+      </footer>
+    </section>
+  `;
+}
+
+function renderSwedbankSuccessScreen() {
+  const successBodyMarkup = successBodyParagraphs
+    .map((paragraph) => `<p class="success-sheet__body-paragraph">${paragraph}</p>`)
+    .join("");
+
+  return `
+    <section class="swedbank-screen swedbank-screen--success" aria-label="Swedbank request received">
+      <div class="success-sheet success-sheet--portal">
+        <header class="success-sheet__top">
+          <div class="success-sheet__actions">
+            <button class="close-button" type="button" aria-label="Close" data-action="close-swedbank-success">
+              <span class="close-button__icon"></span>
+            </button>
+          </div>
+          <div class="success-sheet__spacer" aria-hidden="true"></div>
+        </header>
+        <div class="success-sheet__body">
+          ${renderSuccessIllustration()}
+          <h1 class="success-sheet__title">Request received</h1>
+          <div class="success-sheet__body-copy">${successBodyMarkup}</div>
+          <div class="success-sheet__buttons">
+            ${renderSwedbankSecondaryButton("Contact Entercard", "swedbank-contact")}
+            ${renderSwedbankPrimaryButton("Logout & return to Swedbank", "swedbank-logout")}
+          </div>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function renderSwedbankSubmittedScreen() {
+  const snapshot = prototypeState.reviewSnapshot;
+  const reviewRowsMarkup = [
+    renderReviewRow("Product", "Swedbank Mastercard", true, false, "product"),
+    renderReviewRow("Card number", snapshot.cardNumber, true),
+    renderReviewRow("Request time", snapshot.requestTime, false, false, "timestamp"),
+  ].join("");
+  const submittedBodyMarkup = successBodyParagraphs
+    .map((paragraph) => `<p class="submitted-header__paragraph">${paragraph}</p>`)
+    .join("");
+
+  return `
+    <section class="swedbank-screen" aria-label="Swedbank request received submitted">
+      ${renderSwedbankBrandHeader()}
+      <div class="swedbank-screen__scroll swedbank-screen__scroll--submitted">
+        <section class="swedbank-screen__title-block swedbank-screen__title-block--submitted">
+          <h1 class="swedbank-screen__title">Request received</h1>
+          <div class="swedbank-screen__body swedbank-screen__body--stacked">${submittedBodyMarkup}</div>
+        </section>
+        <section class="review-tiles review-tiles--swedbank">
+          ${renderReviewTile(assets.reviewAccount, "Name", snapshot.name)}
+          ${renderReviewTile(assets.reviewMail, "Confirmation", "Via Swedbank\n(Messages)")}
+        </section>
+        <section class="review-section review-section--swedbank">
+          ${reviewRowsMarkup}
+        </section>
+      </div>
+      <footer class="swedbank-screen__footer swedbank-screen__footer--stacked">
+        ${renderSwedbankSecondaryButton("Contact Entercard", "swedbank-contact")}
+        ${renderSwedbankPrimaryButton("Logout & return to Swedbank", "swedbank-logout")}
+      </footer>
+    </section>
   `;
 }
 
@@ -1134,7 +1578,17 @@ function renderSuccessScreen() {
 }
 
 function renderPrototypeControls() {
-  const groupsMarkup = prototypeNavGroups
+  const portalButtons = Object.entries(portals)
+    .map(([portalKey, config]) => {
+      const active = prototypeState.currentPortal === portalKey ? " prototype-nav__button--active" : "";
+      return `
+        <button class="prototype-nav__button${active}" type="button" data-portal="${portalKey}">
+          ${config.label}
+        </button>
+      `;
+    })
+    .join("");
+  const groupsMarkup = getPrototypeNavGroups()
     .map((group) => {
       const stateButtons = (group.stateKeys || [])
         .map((stateKey) => {
@@ -1176,7 +1630,33 @@ function renderPrototypeControls() {
           `;
         })
         .join("");
-      const buttons = `${entryButtons}${stateButtons}${successButtons}`;
+      const submittedButtons = (group.submittedKeys || [])
+        .map((submittedKey) => {
+          const config = submittedScreens[submittedKey];
+          const active = prototypeState.currentScreen === "submitted"
+            ? " prototype-nav__button--active"
+            : "";
+
+          return `
+            <button class="prototype-nav__button${active}" type="button" data-submitted-screen="${submittedKey}">
+              ${config.label}
+            </button>
+          `;
+        })
+        .join("");
+      const previewButtons = (group.previewKeys || [])
+        .map((previewKey) => {
+          const config = swedbankPreviewScreens[previewKey];
+          const active = prototypeState.currentScreen === previewKey ? " prototype-nav__button--active" : "";
+
+          return `
+            <button class="prototype-nav__button${active}" type="button" data-preview-screen="${previewKey}">
+              ${config.label}
+            </button>
+          `;
+        })
+        .join("");
+      const buttons = `${entryButtons}${stateButtons}${successButtons}${submittedButtons}${previewButtons}`;
 
       return `
         <section class="prototype-nav__group">
@@ -1191,6 +1671,10 @@ function renderPrototypeControls() {
     <aside class="prototype-nav" aria-label="Prototype states">
       <div class="prototype-nav__panel">
         <div class="prototype-nav__eyebrow">Prototype states</div>
+        <section class="prototype-nav__group">
+          <h2 class="prototype-nav__group-title">Portal</h2>
+          <div class="prototype-nav__buttons">${portalButtons}</div>
+        </section>
         ${groupsMarkup}
       </div>
     </aside>
@@ -1198,6 +1682,23 @@ function renderPrototypeControls() {
 }
 
 function renderPhoneContent() {
+  if (prototypeState.currentPortal === "swedbank") {
+    switch (prototypeState.currentScreen) {
+      case "swedbank-login":
+        return renderSwedbankLoginScreen();
+      case "swedbank-detail":
+        return renderSwedbankDetailScreen();
+      case "swedbank-review":
+        return renderSwedbankReviewScreen();
+      case "swedbank-success":
+        return renderSwedbankSuccessScreen();
+      case "swedbank-submitted":
+        return renderSwedbankSubmittedScreen();
+      default:
+        return renderSwedbankLoginScreen();
+    }
+  }
+
   let homeClass = " phone-screen phone-screen--active";
 
   if (prototypeState.currentScreen !== "home") {
@@ -1214,12 +1715,13 @@ function renderPhoneContent() {
     ${prototypeState.currentScreen === "detail" ? renderDetailScreen() : ""}
     ${prototypeState.currentScreen === "review" ? renderReviewScreen() : ""}
     ${prototypeState.currentScreen === "success" ? `${renderReviewScreen()}${renderSuccessScreen()}` : ""}
+    ${prototypeState.currentScreen === "submitted" ? renderSubmittedScreen() : ""}
   `;
 }
 
 function renderApp() {
   const viewportClass =
-    prototypeState.currentScreen !== "home"
+    prototypeState.currentPortal === "remember" && prototypeState.currentScreen !== "home"
       ? "phone-frame__viewport phone-frame__viewport--modal-open"
       : "phone-frame__viewport";
 
@@ -1312,6 +1814,18 @@ function syncLiveTime() {
 }
 
 function bindPrototypeEvents() {
+  document.querySelectorAll("[data-portal]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const portalKey = button.dataset.portal;
+      prototypeState.currentPortal = portalKey;
+      prototypeState.modalTransition = "idle";
+      prototypeState.resetDetailScroll = false;
+      prototypeState.reviewSnapshot = null;
+      prototypeState.currentScreen = portals[portalKey].defaultScreen;
+      render();
+    });
+  });
+
   document.querySelectorAll("[data-entry-point]").forEach((button) => {
     button.addEventListener("click", () => {
       const entryKey = button.dataset.entryPoint;
@@ -1349,6 +1863,32 @@ function bindPrototypeEvents() {
     });
   });
 
+  document.querySelectorAll("[data-preview-screen]").forEach((button) => {
+    button.addEventListener("click", () => {
+      if (
+        button.dataset.previewScreen === "swedbank-review"
+        || button.dataset.previewScreen === "swedbank-success"
+        || button.dataset.previewScreen === "swedbank-submitted"
+      ) {
+        createReviewSnapshot();
+      }
+      prototypeState.currentScreen = button.dataset.previewScreen;
+      prototypeState.resetDetailScroll = true;
+      render();
+    });
+  });
+
+  document.querySelectorAll("[data-submitted-screen]").forEach((button) => {
+    button.addEventListener("click", () => {
+      if (!prototypeState.reviewSnapshot) {
+        createReviewSnapshot();
+      }
+      prototypeState.currentScreen = "submitted";
+      prototypeState.resetDetailScroll = true;
+      render();
+    });
+  });
+
   document.querySelectorAll("[data-action='open-agreement']").forEach((button) => {
     button.addEventListener("click", () => {
       prototypeState.currentState = getCurrentEntryConfig().defaultState;
@@ -1362,6 +1902,14 @@ function bindPrototypeEvents() {
 
   document.querySelectorAll("[data-action='back-home']").forEach((button) => {
     button.addEventListener("click", () => {
+      if (prototypeState.currentPortal === "swedbank") {
+        prototypeState.currentScreen = "swedbank-login";
+        prototypeState.modalTransition = "idle";
+        prototypeState.resetDetailScroll = false;
+        prototypeState.reviewSnapshot = null;
+        render();
+        return;
+      }
       prototypeState.modalTransition = "dismissing";
       render();
       window.setTimeout(() => {
@@ -1404,8 +1952,56 @@ function bindPrototypeEvents() {
 
   document.querySelectorAll("[data-action='close-success']").forEach((button) => {
     button.addEventListener("click", () => {
-      prototypeState.currentScreen = "review";
+      prototypeState.currentScreen = "submitted";
+      prototypeState.resetDetailScroll = true;
+      render();
+    });
+  });
+
+  document.querySelectorAll("[data-action='open-swedbank-detail']").forEach((button) => {
+    button.addEventListener("click", () => {
+      prototypeState.currentScreen = "swedbank-detail";
+      prototypeState.resetDetailScroll = true;
+      render();
+    });
+  });
+
+  document.querySelectorAll("[data-action='open-swedbank-review']").forEach((button) => {
+    button.addEventListener("click", () => {
+      createReviewSnapshot();
+      prototypeState.currentScreen = "swedbank-review";
+      prototypeState.resetDetailScroll = true;
+      render();
+    });
+  });
+
+  document.querySelectorAll("[data-action='open-swedbank-success']").forEach((button) => {
+    button.addEventListener("click", () => {
+      if (!prototypeState.reviewSnapshot) {
+        createReviewSnapshot();
+      }
+      prototypeState.currentScreen = "swedbank-success";
+      prototypeState.resetDetailScroll = true;
+      render();
+    });
+  });
+
+  document.querySelectorAll("[data-action='close-swedbank-success']").forEach((button) => {
+    button.addEventListener("click", () => {
+      if (!prototypeState.reviewSnapshot) {
+        createReviewSnapshot();
+      }
+      prototypeState.currentScreen = "swedbank-submitted";
+      prototypeState.resetDetailScroll = true;
+      render();
+    });
+  });
+
+  document.querySelectorAll("[data-action='swedbank-logout']").forEach((button) => {
+    button.addEventListener("click", () => {
+      prototypeState.currentScreen = "swedbank-login";
       prototypeState.resetDetailScroll = false;
+      prototypeState.reviewSnapshot = null;
       render();
     });
   });

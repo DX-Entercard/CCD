@@ -481,8 +481,16 @@ button {
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
   padding: 0 16px 0;
   background: var(--color-surface);
+}
+
+.sheet-body::-webkit-scrollbar {
+  display: none;
 }
 
 .detail-header {
@@ -509,7 +517,6 @@ button {
 .detail-header__content {
   display: flex;
   flex-direction: column;
-  gap: 8px;
   padding-top: 32px;
 }
 
@@ -540,6 +547,19 @@ button {
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   padding: 0 16px 0;
+}
+
+.detail-intro {
+  padding-top: 8px;
+}
+
+.detail-intro__body {
+  margin: 0;
+  color: var(--color-secondary-text);
+  font-size: var(--font-size-body-bold);
+  font-weight: 600;
+  line-height: var(--line-height-body);
+  letter-spacing: var(--letter-spacing-body);
 }
 
 .detail-sheet__scroll::-webkit-scrollbar {
@@ -933,7 +953,6 @@ button {
 .review-header__content {
   display: flex;
   flex-direction: column;
-  gap: 8px;
   padding-bottom: 16px;
 }
 
@@ -958,6 +977,22 @@ button {
 
 .detail-sheet__scroll--review {
   padding-top: 16px;
+}
+
+.review-sheet .review-header__content {
+  padding-bottom: 8px;
+}
+
+.review-sheet .detail-sheet__scroll--review {
+  padding-top: 0;
+}
+
+.review-intro {
+  padding-bottom: 16px;
+}
+
+.review-intro--submitted {
+  padding-bottom: 16px;
 }
 
 .review-tiles {
@@ -1104,6 +1139,42 @@ button {
   font-weight: 600;
   line-height: 22px;
   letter-spacing: var(--letter-spacing-body);
+}
+
+.submitted-sheet {
+  height: calc(100% - 57px);
+}
+
+.submitted-header__content {
+  gap: 16px;
+}
+
+.submitted-header__body {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.submitted-header__paragraph {
+  margin: 0;
+  font-family: "Roboto", var(--font-body);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -0.03px;
+}
+
+.submitted-header__paragraph:first-child {
+  font-weight: 600;
+  line-height: 21px;
+  letter-spacing: 0.26px;
+}
+
+.submitted-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--color-surface);
 }
 
 .success-sheet {
@@ -1262,6 +1333,488 @@ button {
   inset: 0;
   width: 100%;
   height: 100%;
+}
+
+.swedbank-screen {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  background: #fff;
+  font-family: "Roboto", var(--font-body);
+  color: #222;
+}
+
+.swedbank-brand-header {
+  flex: 0 0 auto;
+  background: #fff;
+}
+
+.swedbank-brand-header__logo-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 104px;
+  padding: 44px 16px 16px;
+}
+
+.swedbank-brand-header__logo {
+  display: block;
+  width: 188.832px;
+  height: 36px;
+}
+
+.swedbank-brand-header__divider {
+  height: 0.5px;
+  background: #ddd;
+}
+
+.swedbank-screen__scroll {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 16px;
+}
+
+.swedbank-screen__scroll--submitted {
+  padding-bottom: 16px;
+}
+
+.swedbank-screen__title-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 0 0;
+}
+
+.swedbank-screen__title-block--submitted {
+  padding-bottom: 0;
+}
+
+.swedbank-screen__title {
+  margin: 0;
+  font-family: "Roboto", var(--font-title);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 34px;
+  letter-spacing: 0.22px;
+}
+
+.swedbank-screen__body {
+  margin: 0;
+  color: var(--color-secondary-text);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 21px;
+  letter-spacing: 0.26px;
+}
+
+.swedbank-screen__body--stacked {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.swedbank-screen__section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 24px;
+  padding-bottom: 0;
+}
+
+.swedbank-screen__section-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 22px;
+  letter-spacing: -0.41px;
+}
+
+.swedbank-screen__section-subtitle {
+  margin: 0 0 8px;
+  color: var(--color-secondary-text);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: -0.5px;
+}
+
+.swedbank-product-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 80px;
+  padding: 16px 0 18px;
+  border-bottom: 0.5px solid #ddd;
+}
+
+.swedbank-product-row__content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.swedbank-product-row__title {
+  font-size: var(--font-size-body-bold);
+  font-weight: 600;
+  line-height: var(--line-height-body);
+  letter-spacing: var(--letter-spacing-body);
+}
+
+.swedbank-product-row__meta {
+  color: var(--color-secondary-text);
+  font-size: var(--font-size-footnote);
+  line-height: var(--line-height-footnote);
+  letter-spacing: var(--letter-spacing-footnote);
+}
+
+.swedbank-card-art {
+  display: block;
+  width: 64px;
+  height: 40px;
+  flex: 0 0 64px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.detail-info--swedbank .detail-info__row:first-child {
+  padding-top: 12px;
+}
+
+.swedbank-screen__footer {
+  flex: 0 0 auto;
+  padding: 16px;
+  border-top: 0.5px solid #ddd;
+  background: #fff;
+}
+
+.swedbank-screen__footer--stacked {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.swedbank-button {
+  width: 100%;
+  min-height: 56px;
+  border-radius: 16px;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 22px;
+}
+
+.swedbank-button--primary {
+  border: 0;
+  background: #1b2aa3;
+  color: #fff;
+}
+
+.swedbank-button--secondary {
+  border: 0;
+  background: #ddd;
+  color: #222;
+}
+
+.swedbank-screen--success {
+  background: #000;
+}
+
+.success-sheet--portal {
+  margin-top: 69px;
+  min-height: calc(100% - 69px);
+  height: calc(100% - 69px);
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  box-shadow: none;
+  animation: none;
+}
+
+.success-sheet--portal .success-sheet__top {
+  padding: 22px 16px 4px;
+}
+
+.success-sheet--portal .success-sheet__spacer {
+  height: 72px;
+}
+
+.success-sheet--portal .success-sheet__body {
+  min-height: calc(100% - 98px);
+  padding: 0 16px 24px;
+}
+
+.success-sheet--portal .success-illustration {
+  width: 156px;
+  height: 122px;
+  flex: 0 0 122px;
+  margin-bottom: 20px;
+}
+
+.success-sheet--portal .success-sheet__buttons {
+  margin-top: auto;
+  padding: 18px 0 24px;
+}
+
+.swedbank-login {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  overflow: hidden;
+  background: #fff;
+  font-family: "Roboto", var(--font-body);
+  color: #222;
+}
+
+.swedbank-login__bg {
+  position: absolute;
+  inset: 0;
+}
+
+.swedbank-login__bg-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.swedbank-login__topbar {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 0 0 auto;
+  height: 104px;
+  padding: 44px 16px 16px;
+  background: #fff;
+}
+
+.swedbank-login__topbar-divider {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 0.5px;
+  background: #ddd;
+}
+
+.swedbank-login__logo {
+  display: block;
+  width: 188.832px;
+  height: auto;
+  max-height: 36px;
+}
+
+.swedbank-login__card {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  flex: 0 0 auto;
+  width: 366px;
+  margin: 42px auto 0;
+  padding: 16px 16px 32px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(40px);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.1);
+}
+
+.swedbank-login__hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.swedbank-login__account {
+  display: flex;
+  justify-content: center;
+}
+
+.swedbank-login__account-icon {
+  position: relative;
+  display: block;
+  width: 48px;
+  height: 48px;
+  --icon-frame: 48px;
+  --icon-width: 38px;
+  --icon-height: 38px;
+}
+
+.swedbank-login__account-icon-image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--icon-width, 24px);
+  height: var(--icon-height, 24px);
+  transform: translate(
+    calc(-50% + var(--icon-offset-x, 0px)),
+    calc(-50% + var(--icon-offset-y, 0px))
+  );
+}
+
+.swedbank-login__title,
+.swedbank-login__body {
+  margin: 0;
+  text-align: center;
+}
+
+.swedbank-login__title {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 25px;
+}
+
+.swedbank-login__body {
+  color: #222;
+  font-size: 18px;
+  line-height: 22px;
+  letter-spacing: -0.01px;
+  width: 282px;
+}
+
+.swedbank-login__options {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.1);
+}
+
+.swedbank-login__option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 56px;
+  padding: 16px;
+  border: 0;
+  background: #fff;
+  text-align: left;
+}
+
+.swedbank-login__option + .swedbank-login__option {
+  border-top: 0.5px solid #ddd;
+}
+
+.swedbank-login__option-left,
+.swedbank-login__utility-left {
+  display: inline-flex;
+  align-items: center;
+}
+
+.swedbank-login__option-left,
+.swedbank-login__utility-left {
+  gap: 8px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.swedbank-login__bankid-icon-wrap {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+}
+
+.swedbank-login__bankid-icon,
+.swedbank-login__utility-icon,
+.swedbank-login__utility-trailing,
+.swedbank-login__chevron {
+  position: relative;
+  display: block;
+  width: var(--icon-frame, 24px);
+  height: var(--icon-frame, 24px);
+  flex: 0 0 var(--icon-frame, 24px);
+}
+
+.swedbank-login__bankid-icon-image,
+.swedbank-login__utility-icon-image,
+.swedbank-login__utility-trailing-image,
+.swedbank-login__chevron-image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--icon-width, 24px);
+  height: var(--icon-height, 24px);
+  transform: translate(
+    calc(-50% + var(--icon-offset-x, 0px)),
+    calc(-50% + var(--icon-offset-y, 0px))
+  );
+}
+
+.swedbank-login__option-label,
+.swedbank-login__utility-label {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 17px;
+  line-height: 22px;
+  letter-spacing: -0.03px;
+}
+
+.swedbank-login__utilities {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding-top: 16px;
+}
+
+.swedbank-login__utility {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 334px;
+  min-height: 56px;
+  padding: 16px 0;
+  border: 0;
+  background: transparent;
+  text-align: left;
+}
+
+.swedbank-login__utility-icon {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+}
+
+.swedbank-login__utility-trailing,
+.swedbank-login__chevron {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+}
+
+.review-tiles--swedbank {
+  padding-top: 16px;
+}
+
+.review-tiles--swedbank .review-tile {
+  background: #f7f7f7;
+}
+
+.review-section--swedbank {
+  padding-top: 16px;
+  padding-bottom: 0;
+}
+
+.review-section--swedbank .review-row {
+  min-height: 56px;
+}
+
+.review-section--swedbank .review-row__label {
+  font-family: "Roboto", var(--font-body);
+  font-size: 17px;
+  line-height: 22px;
+  letter-spacing: -0.03px;
+}
+
+.review-section--swedbank .review-row__value {
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 22px;
 }
 
 .modal-sheet {

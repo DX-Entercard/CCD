@@ -1,0 +1,42 @@
+<svg width="64" height="40" viewBox="0 0 64 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="64" height="40" rx="8" fill="url(#bg)"/>
+  <mask id="mask0" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="64" height="40">
+    <rect width="64" height="40" rx="8" fill="white"/>
+  </mask>
+  <g mask="url(#mask0)">
+    <path d="M34.5 -5H70V24.5C63.8 21.9 58.8 18.2 54.8 13C51.8 9 49.7 3.7 44.9 1.2C41.2 -0.7 37.1 -1.2 34.5 -5Z" fill="url(#shine)" fill-opacity="0.8"/>
+    <path d="M-2 31.3C3.7 27.6 10.4 24.7 17.2 24.8C23 24.8 27.1 27.3 31 31.2C34 34.1 36.8 37.8 41 40H-2V31.3Z" fill="url(#lowerGlow)" fill-opacity="0.24"/>
+    <path d="M27.1 14.2C20.8 15.4 16.3 19.3 13.5 26.1" stroke="#723055" stroke-width="1" stroke-linecap="round" stroke-opacity="0.42"/>
+    <path d="M23.2 18.6C19 20.6 16.2 24 14.4 28" stroke="#8E3D69" stroke-width="0.9" stroke-linecap="round" stroke-opacity="0.36"/>
+    <path d="M30.9 17.4L33.4 15.8L34.3 18.7L37.6 18.5L36.3 21L38.8 22.9L35.6 23.3L35 26.4L32.9 24.1L30 25.3L31 22.4L28.8 20.2L31.9 20.2L30.9 17.4Z" fill="#5E174D" fill-opacity="0.9"/>
+    <path d="M20.6 24.2C21.8 22.5 23.4 21.2 25.5 20.5C27.7 19.8 29.8 19.8 31.6 20.4" stroke="#6D2355" stroke-width="0.8" stroke-linecap="round" stroke-opacity="0.5"/>
+  </g>
+  <text x="4.4" y="4.6" fill="#F4E7F2" font-size="2.2" font-weight="500" font-family="Roboto, Arial, sans-serif">business</text>
+  <text x="30.3" y="5.8" fill="white" font-size="5.55" font-weight="500" font-family="Roboto, Arial, sans-serif">Swedbank</text>
+  <g opacity="0.98">
+    <rect x="5.2" y="17.2" width="8.6" height="6.9" rx="0.88" fill="#BCBEC7"/>
+    <rect x="5.95" y="18.05" width="7.1" height="5.25" rx="0.5" stroke="#EFF3F8" stroke-width="0.42"/>
+    <path d="M7.65 18.05V23.3M10.3 18.05V23.3M5.95 20.1H13.05" stroke="#EFF3F8" stroke-width="0.32"/>
+  </g>
+  <path d="M20 18.1L24 15.8L25.4 20.3L30.3 20L28.4 23.9L32.3 27L27.5 27.5L26.5 32.3L23.2 29L18.9 30.7L20.4 26.2L17.1 22.9L21.8 22.9L20 18.1Z" fill="#5B174A"/>
+  <text x="5.2" y="28.2" fill="#F1E3EE" fill-opacity="0.66" font-size="2.25" font-weight="500" font-family="Roboto, Arial, sans-serif">PREMIUM</text>
+  <path d="M5.1 29.3H17.7" stroke="white" stroke-opacity="0.1" stroke-width="0.55"/>
+  <path d="M18.1 29H26.6" stroke="white" stroke-opacity="0.06" stroke-width="0.55"/>
+  <circle cx="49.3" cy="25.2" r="5.95" fill="#EA001B"/>
+  <circle cx="54.7" cy="25.2" r="5.95" fill="#F79E1B"/>
+  <defs>
+    <linearGradient id="bg" x1="1.8" y1="2" x2="63.4" y2="39.2" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7A0E53"/>
+      <stop offset="0.5" stop-color="#65104B"/>
+      <stop offset="1" stop-color="#4B133F"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="40.8" y1="2" x2="58.6" y2="18.2" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#B25B92"/>
+      <stop offset="1" stop-color="#B25B92" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="lowerGlow" x1="4" y1="28" x2="33.5" y2="41.2" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F2C7B7"/>
+      <stop offset="1" stop-color="#F2C7B7" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+</svg>
