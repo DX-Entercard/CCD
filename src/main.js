@@ -172,10 +172,31 @@ const assets = {
     offsetX: 0,
     offsetY: -0.24,
   },
+  insuranceCardSmall: {
+    src: assetUrl("./assets/figma/insurance-card-small.svg"),
+    width: 16,
+    height: 20.284,
+    offsetX: 0,
+    offsetY: 0,
+  },
+  insuranceTravelSmall: {
+    src: assetUrl("./assets/figma/insurance-travel-small.svg"),
+    width: 17,
+    height: 20.409,
+    offsetX: 0,
+    offsetY: 0,
+  },
+  insuranceSecuritySmall: {
+    src: assetUrl("./assets/figma/insurance-security-small.svg"),
+    width: 17,
+    height: 20.364,
+    offsetX: 0,
+    offsetY: 0,
+  },
 };
 
 const commonAgreementBody =
-  "You can withdraw from this agreement within 14 days. we will process your request after submission.";
+  "You can withdraw from this agreement within 14 days. We will process your request after submission.";
 
 const commonInformationRows = [
   {
@@ -188,14 +209,14 @@ const commonInformationRows = [
   },
   {
     title: "Remaining balance",
-    body: "If the balance is not repaid within 30 days, the agreement will not be terminated based on this request.",
+    body: "Any outstanding balance must still be paid. If it isn’t repaid within 30 days, the agreement will remain active.",
   },
 ];
 
 const successBodyParagraphs = [
-  "We have received your request.",
-  "You will receive confirmation message on your Minasidor shortly.",
-  "If you have further questions, please contact our customer service team.",
+  "Your request has been successfully submitted. We will review it and contact you with an update.",
+  "Please note that if the balance is not repaid within the specified period, the agreement will remain active despite this request.",
+  "For further assistance, please contact customer service.",
 ];
 
 const startSections = [
@@ -299,7 +320,7 @@ const agreementScreens = {
         id: "insurance",
         title: "Betalningsskydd Plus",
         meta: "re:member more",
-        productIcon: assets.insuranceProduct,
+        productIcon: assets.insuranceCardSmall,
       },
     ],
   },
@@ -323,7 +344,7 @@ const agreementScreens = {
         id: "insurance",
         title: "Loan insurance Plus",
         meta: "re:member loan",
-        productIcon: assets.insuranceProduct,
+        productIcon: assets.insuranceCardSmall,
       },
     ],
   },
@@ -341,19 +362,19 @@ const agreementScreens = {
         id: "payment-protection",
         title: "Betalningsskydd Plus",
         meta: "re:member more",
-        productIcon: assets.insuranceProduct,
+        productIcon: assets.insuranceCardSmall,
       },
       {
         id: "travel-insurance",
-        title: "Kompletterande reseforsakring",
+        title: "Kompletterande reseförsäkring",
         meta: "re:member more",
-        productIcon: assets.insuranceProduct,
+        productIcon: assets.insuranceTravelSmall,
       },
       {
         id: "safety-package",
         title: "Trygghetspaketet",
         meta: "re:member more",
-        productIcon: assets.insuranceProduct,
+        productIcon: assets.insuranceSecuritySmall,
       },
     ],
   },
@@ -689,7 +710,7 @@ function renderSingleDetailScreen(config) {
       <div class="detail-divider" aria-hidden="true"></div>
     </section>
     <section class="detail-block detail-block--information">
-      <h2 class="detail-block__title">Information</h2>
+      <h2 class="detail-block__title">What happens next</h2>
       <div class="detail-info">
         ${config.informationRows.map((row) => renderDetailInfoRow(config.infoIcon, row)).join("")}
       </div>
@@ -716,7 +737,7 @@ function renderMultipleDetailScreen(config) {
       </div>
     </section>
     <section class="detail-block detail-block--information">
-      <h2 class="detail-block__title">Information</h2>
+      <h2 class="detail-block__title">What happens next</h2>
       <div class="detail-info">
         ${config.informationRows.map((row) => renderDetailInfoRow(config.infoIcon, row)).join("")}
       </div>
