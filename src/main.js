@@ -184,12 +184,18 @@ const commonInformationRows = [
   },
   {
     title: "Right to withdraw",
-    body: "You confirm withdrawal within 14 days\nRemaining balance",
+    body: "You confirm that you are exercising your right of withdrawal within 14 days of the agreement.",
   },
   {
     title: "Remaining balance",
-    body: "Repay within 30 days or the agreement will continue",
+    body: "If the balance is not repaid within 30 days, the agreement will not be terminated based on this request.",
   },
+];
+
+const successBodyParagraphs = [
+  "Your request has been successfully submitted. We will review it and contact you with an update.",
+  "Please note that if the balance is not repaid within the specified period, the agreement will remain active despite this request.",
+  "For further assistance, please contact customer service.",
 ];
 
 const startSections = [
@@ -955,6 +961,9 @@ function renderSuccessScreen() {
         config.primaryActionExternal,
       )
     : "";
+  const successBodyMarkup = successBodyParagraphs
+    .map((paragraph) => `<p class="success-sheet__body-paragraph">${paragraph}</p>`)
+    .join("");
 
   return `
     <div class="modal-layer modal-layer--success">
@@ -971,7 +980,7 @@ function renderSuccessScreen() {
         <div class="success-sheet__body">
           ${renderSuccessIllustration()}
           <h1 class="success-sheet__title">Request received</h1>
-          <p class="success-sheet__body-copy">We have received your request. You will receive confirmation message on your Minasidor shortly. If you have further questions, please contact our customer service team.</p>
+          <div class="success-sheet__body-copy">${successBodyMarkup}</div>
           <div class="success-sheet__buttons">
             ${primaryAction}
             ${renderSuccessButton("Contact customer service", "secondary", "success-secondary")}
