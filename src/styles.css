@@ -54,6 +54,27 @@ button {
   font: inherit;
 }
 
+.detail-footer__button,
+.review-footer__button,
+.success-action,
+.swedbank-button {
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.detail-footer__button:focus-visible,
+.review-footer__button:focus-visible,
+.success-action:focus-visible,
+.swedbank-button:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px #ffffff,
+    0 0 0 6px #161513;
+}
+
 .app-shell {
   display: flex;
   align-items: center;
@@ -363,6 +384,10 @@ button {
 
 .modal-layer--success {
   z-index: 6;
+}
+
+.modal-layer--call {
+  z-index: 7;
 }
 
 .modal-backdrop {
@@ -887,6 +912,10 @@ button {
   letter-spacing: var(--letter-spacing-body);
 }
 
+.detail-footer__button:not(:disabled):is(:hover, :active) {
+  background: #000000;
+}
+
 .detail-footer__button--disabled:disabled,
 .detail-footer__button:disabled {
   background: #ddd;
@@ -1141,6 +1170,11 @@ button {
   letter-spacing: var(--letter-spacing-body);
 }
 
+.review-footer__button:not(:disabled):is(:hover, :active) {
+  background: #e1e1e1;
+  color: #ff2424;
+}
+
 .submitted-sheet {
   height: calc(100% - 57px);
 }
@@ -1268,10 +1302,18 @@ button {
   color: #161513;
 }
 
+.success-action--secondary:is(:hover, :active) {
+  background: #f5f5f5;
+}
+
 .success-action--primary {
   border: 0;
   background: #161513;
   color: #fff;
+}
+
+.success-action--primary:is(:hover, :active) {
+  background: #000000;
 }
 
 .success-action__label {
@@ -1316,6 +1358,39 @@ button {
   background: #161513;
   transform: rotate(-45deg);
   transform-origin: left center;
+}
+
+.call-sheet {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  padding: 0 8px max(8px, env(safe-area-inset-bottom));
+}
+
+.call-sheet__action,
+.call-sheet__cancel {
+  width: 100%;
+  min-height: 56px;
+  border: 0;
+  border-radius: 14px;
+  background: #fff;
+  color: #007aff;
+  font-family: var(--font-body);
+  font-size: 20px;
+  line-height: 25px;
+  letter-spacing: 0.38px;
+  text-align: center;
+}
+
+.call-sheet__action {
+  font-weight: 400;
+}
+
+.call-sheet__cancel {
+  font-weight: 600;
 }
 
 .success-illustration {
@@ -1510,10 +1585,18 @@ button {
   color: #fff;
 }
 
+.swedbank-button--primary:is(:hover, :active) {
+  background: #162389;
+}
+
 .swedbank-button--secondary {
   border: 0;
   background: #ddd;
   color: #222;
+}
+
+.swedbank-button--secondary:is(:hover, :active) {
+  background: #d2d2d2;
 }
 
 .swedbank-screen--success {

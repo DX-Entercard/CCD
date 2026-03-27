@@ -323,6 +323,10 @@ const successBodyParagraphs = [
   "For further assistance, please contact customer service.",
 ];
 
+const minasidorUrl = "https://minasidor.remember.se/se/remember/";
+const customerServiceLabel = "Call +46 xx-xxx xx xx";
+const customerServiceTel = "tel:+46";
+
 const portals = {
   remember: {
     label: "re:member",
@@ -614,6 +618,7 @@ const prototypeState = {
   resetDetailScroll: false,
   reviewSnapshot: null,
   activeSuccessVariant: "app",
+  callSheetOpen: false,
   selections: {
     "multiple-cards": {
       card: false,
@@ -1536,6 +1541,26 @@ function renderSuccessButton(label, variant, action, showExternalIcon = false) {
   `;
 }
 
+function renderCallSheet() {
+  if (!prototypeState.callSheetOpen) {
+    return "";
+  }
+
+  return `
+    <div class="modal-layer modal-layer--call">
+      <button class="modal-backdrop modal-backdrop--success" type="button" aria-label="Close call sheet" data-action="close-call-sheet"></button>
+      <section class="call-sheet" aria-label="Call customer service">
+        <button class="call-sheet__action" type="button" data-action="confirm-call-service">
+          ${customerServiceLabel}
+        </button>
+        <button class="call-sheet__cancel" type="button" data-action="close-call-sheet">
+          Cancel
+        </button>
+      </section>
+    </div>
+  `;
+}
+
 function renderSuccessScreen() {
   const config = successSheets[prototypeState.activeSuccessVariant];
   const primaryAction = config.primaryActionLabel
@@ -1752,6 +1777,7 @@ function renderApp() {
           <div class="phone-frame">
             <div class="${viewportClass}">
               ${renderPhoneContent()}
+              ${renderCallSheet()}
             </div>
             <footer class="home-indicator" aria-hidden="true">
               <span class="home-indicator__bar"></span>
@@ -2003,6 +2029,34 @@ function bindPrototypeEvents() {
       prototypeState.resetDetailScroll = false;
       prototypeState.reviewSnapshot = null;
       render();
+    });
+  });
+
+  document.querySelectorAll("[data-action='success-primary']").forEach((button) => {
+    button.addEventListener("click", () => {
+      window.open(minasidorUrl, "_blank", "noopener,noreferrer");
+    });
+  });
+
+  document.querySelectorAll("[data-action='success-secondary'], [data-action='swedbank-contact']").forEach((button) => {
+    button.addEventListener("click", () => {
+      prototypeState.callSheetOpen = true;
+      render();
+    });
+  });
+
+  document.querySelectorAll("[data-action='close-call-sheet']").forEach((button) => {
+    button.addEventListener("click", () => {
+      prototypeState.callSheetOpen = false;
+      render();
+    });
+  });
+
+  document.querySelectorAll("[data-action='confirm-call-service']").forEach((button) => {
+    button.addEventListener("click", () => {
+      prototypeState.callSheetOpen = false;
+      render();
+      window.location.href = customerServiceTel;
     });
   });
 
