@@ -324,6 +324,7 @@ const successBodyParagraphs = [
 ];
 
 const minasidorUrl = "https://minasidor.remember.se/se/remember/";
+const swedbankUrl = "https://online.swedbank.se/app/ib/";
 const customerServiceLabel = "Call +46 xx-xxx xx xx";
 const customerServiceTel = "tel:+46";
 
@@ -2025,10 +2026,7 @@ function bindPrototypeEvents() {
 
   document.querySelectorAll("[data-action='swedbank-logout']").forEach((button) => {
     button.addEventListener("click", () => {
-      prototypeState.currentScreen = "swedbank-login";
-      prototypeState.resetDetailScroll = false;
-      prototypeState.reviewSnapshot = null;
-      render();
+      window.open(swedbankUrl, "_blank", "noopener,noreferrer");
     });
   });
 
