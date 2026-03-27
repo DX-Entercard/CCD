@@ -237,7 +237,7 @@ const assets = {
     offsetY: -0.5,
   },
   entercardLogo: assetUrl("./assets/figma/entercard-logo.svg"),
-  swedbankCardArt: assetUrl("./assets/figma/swedbank-card-art.svg"),
+  swedbankCardArt: assetUrl("./assets/figma/swedbank-card-art.png"),
   swedbankLoginBg: assetUrl("./assets/figma/swedbank-login-bg.jpg"),
   swedbankLoginAccount: {
     src: "https://www.figma.com/api/mcp/asset/a9f2fb16-b000-462d-9bc2-05e9d5cdc9e5",
@@ -517,7 +517,7 @@ const agreementScreens = {
       },
       {
         id: "insurance",
-        title: "Loan insurance Plus",
+        title: "Låneskydd Plus",
         meta: "re:member loan",
         productIcon: assets.insuranceCardSmall,
       },
@@ -541,13 +541,13 @@ const agreementScreens = {
       },
       {
         id: "travel-insurance",
-        title: "Kompletterande reseförsäkring",
+        title: "Insurance 2",
         meta: "re:member more",
         productIcon: assets.insuranceTravelSmall,
       },
       {
         id: "safety-package",
-        title: "Trygghetspaketet",
+        title: "Insurance 3",
         meta: "re:member more",
         productIcon: assets.insuranceSecuritySmall,
       },
