@@ -1600,7 +1600,7 @@ button {
 }
 
 .swedbank-screen--success {
-  background: #000;
+  background: linear-gradient(180deg, #000 0 69px, #fff 69px 100%);
 }
 
 .success-sheet--portal {
